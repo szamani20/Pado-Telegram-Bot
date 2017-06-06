@@ -1,3 +1,4 @@
+
 @app.route('/add_d', methods=['GET'])
 def addd():
     db.create_all()
