@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afa3a035-9995-4934-b994-f26c8b780078" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delta_flask.py" afterPath="$PROJECT_DIR$/delta_flask.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/flaskp.py" afterPath="$PROJECT_DIR$/flaskp.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delta_settings.py" afterPath="$PROJECT_DIR$/delta_settings.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,11 +35,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="delta_flask.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="delta_flask.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/delta_flask.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="717">
-              <caret line="352" column="0" lean-forward="true" selection-start-line="352" selection-start-column="0" selection-end-line="352" selection-end-column="0" />
+            <state relative-caret-position="269">
+              <caret line="262" column="22" lean-forward="false" selection-start-line="262" selection-start-column="19" selection-end-line="262" selection-end-column="22" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -61,7 +60,7 @@
       <file leaf-file-name="testbot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
+            <state relative-caret-position="317">
               <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -90,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="delta_settings.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="delta_settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/delta_settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+              <caret line="0" column="60" lean-forward="false" selection-start-line="0" selection-start-column="60" selection-end-line="0" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -112,7 +111,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>'chat_id</find>
       <find>=3</find>
       <find>encode</find>
       <find>delta_flask.py</find>
@@ -142,6 +140,7 @@
       <find>filter_b</find>
       <find>add_3</find>
       <find>.category</find>
+      <find>os.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -158,13 +157,13 @@
         <option value="$PROJECT_DIR$/delta_model.py" />
         <option value="$PROJECT_DIR$/delta_bot.py" />
         <option value="$PROJECT_DIR$/delta_keyboard_actions.py" />
-        <option value="$PROJECT_DIR$/delta_settings.py" />
         <option value="$PROJECT_DIR$/delta_bot_shared_values.py" />
         <option value="$PROJECT_DIR$/testbot.py" />
         <option value="$PROJECT_DIR$/delta_farsi_sentences.py" />
         <option value="$PROJECT_DIR$/flask.txt" />
         <option value="$PROJECT_DIR$/delta_flask.py" />
         <option value="$PROJECT_DIR$/flaskp.py" />
+        <option value="$PROJECT_DIR$/delta_settings.py" />
       </list>
     </option>
   </component>
@@ -175,8 +174,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
+    <option name="x" value="96" />
+    <option name="y" value="72" />
     <option name="width" value="1212" />
     <option name="height" value="1019" />
   </component>
@@ -570,7 +569,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1212" height="1019" extended-state="0" />
+    <frame x="96" y="72" width="1212" height="1019" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18068965" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -816,21 +815,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testbot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/delta_keyboard_actions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-82">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/delta_flask.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="262" column="22" lean-forward="false" selection-start-line="262" selection-start-column="19" selection-end-line="262" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -850,11 +849,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/delta_settings.py">
+    <entry file="file://$PROJECT_DIR$/testbot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
-          <folding />
+        <state relative-caret-position="317">
+          <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -866,13 +867,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/delta_flask.py">
+    <entry file="file://$PROJECT_DIR$/delta_settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="717">
-          <caret line="352" column="0" lean-forward="true" selection-start-line="352" selection-start-column="0" selection-end-line="352" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="60" lean-forward="false" selection-start-line="0" selection-start-column="60" selection-end-line="0" selection-end-column="60" />
+          <folding />
         </state>
       </provider>
     </entry>
