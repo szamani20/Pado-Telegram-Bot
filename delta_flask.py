@@ -13,7 +13,6 @@ from delta_settings import UPLOAD_FOLDER
 from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, ForceReply
 
 import threading
-from delta_keyboard_actions import *
 import telepot
 from telepot.delegate import (
     per_chat_id, create_open, pave_event_space, include_callback_query_chat_id)
