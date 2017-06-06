@@ -38,6 +38,7 @@ def add_5():
     c.gifts.append(g2)
     c.gifts.append(g3)
     c.gifts.append(g4)
+    c.gifts.append(g5)
     db.session.add(g)
     db.session.add(g2)
     db.session.add(g3)

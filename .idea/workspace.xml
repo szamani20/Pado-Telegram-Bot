@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afa3a035-9995-4934-b994-f26c8b780078" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/flaskp.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delta_flask.py" afterPath="$PROJECT_DIR$/delta_flask.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,11 +39,21 @@
       <file leaf-file-name="delta_flask.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/delta_flask.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7000">
-              <caret line="350" column="7" lean-forward="false" selection-start-line="350" selection-start-column="7" selection-end-line="350" selection-end-column="7" />
+            <state relative-caret-position="197">
+              <caret line="338" column="23" lean-forward="false" selection-start-line="338" selection-start-column="23" selection-end-line="350" selection-end-column="20" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="flaskp.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/flaskp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-236">
+              <caret line="40" column="21" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="228" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -101,7 +112,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>here</find>
       <find>'chat_id</find>
       <find>=3</find>
       <find>encode</find>
@@ -131,6 +141,7 @@
       <find>customer</find>
       <find>filter_b</find>
       <find>add_3</find>
+      <find>.category</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -152,6 +163,7 @@
         <option value="$PROJECT_DIR$/testbot.py" />
         <option value="$PROJECT_DIR$/delta_farsi_sentences.py" />
         <option value="$PROJECT_DIR$/flask.txt" />
+        <option value="$PROJECT_DIR$/flaskp.py" />
         <option value="$PROJECT_DIR$/delta_flask.py" />
       </list>
     </option>
@@ -830,14 +842,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/delta_settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/delta_bot_shared_values.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -846,18 +850,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flaskp.txt">
+    <entry file="file://$PROJECT_DIR$/delta_settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="826">
-          <caret line="227" column="13" lean-forward="false" selection-start-line="227" selection-start-column="13" selection-end-line="227" selection-end-column="13" />
+        <state relative-caret-position="0">
+          <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/flaskp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-236">
+          <caret line="40" column="21" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="228" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/delta_flask.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7000">
-          <caret line="350" column="7" lean-forward="false" selection-start-line="350" selection-start-column="7" selection-end-line="350" selection-end-column="7" />
+        <state relative-caret-position="197">
+          <caret line="338" column="23" lean-forward="false" selection-start-line="338" selection-start-column="23" selection-end-line="350" selection-end-column="20" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
