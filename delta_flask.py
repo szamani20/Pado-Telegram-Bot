@@ -357,7 +357,7 @@ def addd():
 
 
 @app.route('/add_5', methods=['GET'])
-def addc():
+def add_5():
     c = Category()
     g = Gift()
     c.category_title = category5_fa
@@ -401,7 +401,7 @@ def addc():
 
 
 @app.route('/add_4', methods=['GET'])
-def hello_world():
+def add_4():
     c = Category()
     g = Gift()
     c.category_title = category4_fa
@@ -439,7 +439,7 @@ def hello_world():
 
 
 @app.route('/add_3', methods=['GET'])
-def hello_world():
+def add_3():
     c = Category()
     g = Gift()
     c.category_title = category3_fa
@@ -477,7 +477,7 @@ def hello_world():
 
 
 @app.route('/add_2', methods=['GET'])
-def addc():
+def add_2():
     c = Category()
     g = Gift()
     c.category_title = category2_fa
@@ -521,7 +521,7 @@ def addc():
 
 
 @app.route('/add_1', methods=['GET'])
-def hello_world():
+def add_1():
     c = Category()
     g = Gift()
     c.category_title = category1_fa
