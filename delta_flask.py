@@ -357,11 +357,11 @@ def addd():
     return 'hellllo'
 
 
-@app.route('/add_c', methods=['GET'])
+@app.route('/add_5', methods=['GET'])
 def addc():
     c = Category()
     g = Gift()
-    c.category_title = 'Category 5'
+    c.category_title = category5_fa
     c.category_specification = 'Category Specification 5'
     g.gift_title = 'Gift 11'
     g.gift_specification = 'Gift Specification 11'
@@ -401,12 +401,12 @@ def addc():
     return 'Hello World!'
 
 
-@app.route('/add_user', methods=['GET'])
+@app.route('/add_4', methods=['GET'])
 def hello_world():
     c = Category()
     g = Gift()
-    c.category_title = 'Category 6'
-    c.category_specification = 'Category Specification 6'
+    c.category_title = category4_fa
+    c.category_specification = 'Category Specification 4'
     g.gift_title = 'Gift 1'
     g.gift_specification = 'Gift Specification 1'
     g.gift_price = '20$'
@@ -425,6 +425,126 @@ def hello_world():
     g4.gift_title = 'Gift 4'
     g4.gift_specification = 'Gift Specification 4'
     g4.gift_price = '56$'
+    g4.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_3', methods=['GET'])
+def hello_world():
+    c = Category()
+    g = Gift()
+    c.category_title = category3_fa
+    c.category_specification = 'Category Specification 3'
+    g.gift_title = 'Gift 1'
+    g.gift_specification = 'Gift Specification 1'
+    g.gift_price = '760$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 2'
+    g2.gift_specification = 'Gift Specification 2'
+    g2.gift_price = '290$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 3'
+    g3.gift_specification = 'Gift Specification 3'
+    g3.gift_price = '120$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 4'
+    g4.gift_specification = 'Gift Specification 4'
+    g4.gift_price = '26$'
+    g4.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_2', methods=['GET'])
+def addc():
+    c = Category()
+    g = Gift()
+    c.category_title = category2_fa
+    c.category_specification = 'Category Specification 2'
+    g.gift_title = 'Gift 11'
+    g.gift_specification = 'Gift Specification 11'
+    g.gift_price = '260$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 56'
+    g2.gift_specification = 'Gift Specification 56'
+    g2.gift_price = '420$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 31'
+    g3.gift_specification = 'Gift Specification 31'
+    g3.gift_price = '310$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 48'
+    g4.gift_specification = 'Gift Specification 48'
+    g4.gift_price = '120$'
+    g4.gift_image = 'img4.jpg'
+    g5 = Gift()
+    g5.gift_title = 'Gift 48'
+    g5.gift_specification = 'Gift Specification 48'
+    g5.gift_price = '210$'
+    g5.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(g5)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_1', methods=['GET'])
+def hello_world():
+    c = Category()
+    g = Gift()
+    c.category_title = category1_fa
+    c.category_specification = 'Category Specification 1'
+    g.gift_title = 'Gift 1'
+    g.gift_specification = 'Gift Specification 1'
+    g.gift_price = '210$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 2'
+    g2.gift_specification = 'Gift Specification 2'
+    g2.gift_price = '236$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 3'
+    g3.gift_specification = 'Gift Specification 3'
+    g3.gift_price = '10$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 4'
+    g4.gift_specification = 'Gift Specification 4'
+    g4.gift_price = '526$'
     g4.gift_image = 'img4.jpg'
     c.gifts.append(g)
     c.gifts.append(g2)
