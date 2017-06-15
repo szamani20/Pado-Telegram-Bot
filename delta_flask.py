@@ -53,6 +53,8 @@ class Sell(db.Model):
     sell_description = db.Column(db.String(250), default='')
     sell_image = db.Column(db.String(100), default='')
     sell_address = db.Column(db.String(250), default='')
+    is_final = db.Column(db.Boolean, default=False)
+    has_received = db.Column(db.Boolean, default=False)
     # more to go
 
 
@@ -61,6 +63,8 @@ class Customer(db.Model):
     customer_name = db.Column(db.String(100))
     customer_family = db.Column(db.String(100), default='')
     customer_phone = db.Column(db.String(20), default='')
+    destination_address = db.Column(db.String(250), default='')
+    pending_order_gift_id = db.Column(db.Integer, nullable=True)
     tg_id = db.Column(db.String(20))
     tg_name = db.Column(db.String(50))
     tg_family = db.Column(db.String(50), default='')
@@ -135,12 +139,12 @@ def new_gifts_result(msg, dri, next_gifts=False, category_id=None, price_oriente
     for i in range(len(gifts)):
         if i == len(gifts) - 1:
             keyboard = [[InlineKeyboardButton(text=gift_fa,
-                                              callback_data=str(gifts[i].id)),
+                                              callback_data='order_' + str(gifts[i].id)),
                          InlineKeyboardButton(text=next_fa,
                                               callback_data=callback_data)]]
         else:
             keyboard = [[InlineKeyboardButton(text=gift_fa,
-                                              callback_data=str(gifts[i].id))]]
+                                              callback_data='order_' + str(gifts[i].id))]]
         markup = InlineKeyboardMarkup(inline_keyboard=keyboard)
         bot.sendPhoto(chat_id, open(app.config['UPLOAD_FOLDER'] + str(gifts[i].category_id) + '/' + images[i], 'rb'),
                       caption=str(gifts[i].gift_specification) + '\n' + str(gifts[i].gift_price), reply_markup=markup)
@@ -239,6 +243,10 @@ def check_customer_database(msg):
         db.session.commit()
 
 
+def set_customer_phone_number(msg):
+    pass
+
+
 class VoteCounter(telepot.helper.ChatHandler):
     def __init__(self, *args, **kwargs):
         super(VoteCounter, self).__init__(*args, **kwargs)
@@ -277,7 +285,9 @@ class VoteCounter(telepot.helper.ChatHandler):
 
         threading.Thread(target=check_customer_database, args=msg)
 
-        if content_type != 'text':
+        if content_type == 'contact':
+            set_customer_phone_number(msg)
+        elif content_type != 'text':
             return
 
         if msg['text'] in self.reply_keyboard_buttons_dict:
@@ -299,6 +309,21 @@ class VoteCounter(telepot.helper.ChatHandler):
                 print(c.gift_price, end=' ')
             print('\n', price_index)
             new_gifts_result(msg, r2, price_oriented=True, price_index=price_index)
+        elif msg['text'] == confirm_pending_order_fa:
+            print('here 4')
+            c = Customer.query.filter_by(tg_id=chat_id).first()
+            if c and c.pending_order_gift_id in [g.id for g in self.dri.gifts]:
+                self.phone_number_confirmation(chat_id, c.pending_order_gift_id, c)
+        elif msg['text'] == cancel_order_fa:
+            print('here 5')
+            c = Customer.query.filter_by(tg_id=chat_id).first()
+            if c and c.pending_order_gift_id is not None:
+                c.pending_order_gift_id = None
+                db.session.commit()
+        elif msg['text'] == confirm_phone_number_fa:
+            c = Customer.query.filter_by(tg_id=chat_id).first()
+            if c and c.customer_phone and c.customer_phone != '':
+                self.phone_number_confirmed(chat_id, c)
         else:
             markup = ReplyKeyboardMarkup(keyboard=[
                 [KeyboardButton(text=new_gifts_fa)],
@@ -332,8 +357,81 @@ class VoteCounter(telepot.helper.ChatHandler):
             print()
             new_gifts_result(msg, r2, next_gifts=True, price_oriented=True,
                              price_index=int(data[13:]))
-        elif data == 'previous':
-            print('Previous')
+        elif data.startswith('order_'):
+            self.checkout_order(from_id, int(data[6:]))
+
+    def checkout_order(self, chat_id, gift_id, phone_confirmed=False):
+        c = Customer.query.filter_by(tg_id=chat_id).first()
+
+        if not c:
+            return
+
+        if c.pending_order_gift_id \
+                and c.pending_order_gift_id != '':
+
+            gift = None
+
+            for g in self.dri.gifts:
+                if c.pending_order_gift_id == g.id:
+                    gift = g
+                    break
+
+            if gift is None:
+                return
+
+            markup = ReplyKeyboardMarkup([
+                [KeyboardButton(text=confirm_pending_order_fa)],
+                [KeyboardButton(text=cancel_order_fa)],
+            ], resize_keyboard=True,
+                one_time_keyboard=True)
+            bot.sendMessage(chat_id, pending_order_fa.format(c.pending_order_gift_id))
+            bot.sendPhoto(chat_id,
+                          open(app.config['UPLOAD_FOLDER'] + str(gift.category_id) + '/' + gift.gift_image, 'rb'),
+                          caption=str(gift.gift_specification) + '\n' + str(gift.gift_price),
+                          reply_markup=markup)
+            return
+        else:
+            c.pending_order_gift_id = gift_id
+            db.session.commit()
+
+        if not phone_confirmed:
+            self.phone_number_confirmation(chat_id, gift_id, c)
+
+    def phone_number_confirmed(self, chat_id, c):
+        if c.pending_order_gift_id \
+                and c.pending_order_gift_id != '':
+
+            gift = None
+
+            for g in self.dri.gifts:
+                if c.pending_order_gift_id == g.id:
+                    gift = g
+                    break
+
+            if gift is None:
+                return
+
+            bot.sendMessage(chat_id)
+
+            c.pending_order_gift_id = None
+            db.session.commit()
+
+    def phone_number_confirmation(self, chat_id, gift_id, c):
+        if c.customer_phone != '':
+            markup = ReplyKeyboardMarkup([
+                [KeyboardButton(text=confirm_phone_number_fa)],
+                [KeyboardButton(text=send_phone_fa, request_contact=True)],
+            ])
+            bot.sendMessage(chat_id, phone_number_saved_fa.format(c.customer_phone), reply_markup=markup)
+        else:
+            keyboard = [
+                [KeyboardButton(text=send_phone_fa, request_contact=True)],
+                [KeyboardButton(text=cancel_order_fa)],
+            ]
+            markup = ReplyKeyboardMarkup(keyboard=keyboard,
+                                         resize_keyboard=True,
+                                         one_time_keyboard=True)
+            bot.sendMessage(chat_id, order_text_send_phone_fa.format(str(gift_id)), reply_markup=markup)
 
 
 TOKEN = '216938007:AAH8RyEjdyVzzS6O9i3ExXTaZqX6NCIRZKM'
@@ -349,4 +447,3 @@ print('Listening ...')
 
 while 1:
     time.sleep(10)
-
