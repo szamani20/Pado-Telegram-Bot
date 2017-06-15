@@ -8,12 +8,12 @@ import os
 # a = (1, 2)
 # print(a[1])
 
-# requests.get('http://localhost:5000/add_d')
-# requests.get('http://localhost:5000/add_1')
-# requests.get('http://localhost:5000/add_2')
-# requests.get('http://localhost:5000/add_3')
-# requests.get('http://localhost:5000/add_4')
-# requests.get('http://localhost:5000/add_5')
+requests.get('http://localhost:5000/add_d')
+requests.get('http://localhost:5000/add_1')
+requests.get('http://localhost:5000/add_2')
+requests.get('http://localhost:5000/add_3')
+requests.get('http://localhost:5000/add_4')
+requests.get('http://localhost:5000/add_5')
 # from delta_flask import db
 # db.create_all()
 

@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 from delta_bot_shared_values import *
 from delta_farsi_sentences import *
-from delta_settings import UPLOAD_FOLDER
+from delta_settings import UPLOAD_FOLDER, TOKEN
 from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, ForceReply
 
 import threading
@@ -48,6 +48,7 @@ class Gift(db.Model):
 class Sell(db.Model):
     sell_id = db.Column('sell_id', db.Integer, primary_key=True)
     customer_id = db.Column(db.Integer)
+    customer_phone = db.Column(db.String(20))
     gift_id = db.Column(db.Integer)
     sell_price = db.Column(db.String(100))
     sell_description = db.Column(db.String(250), default='')
@@ -196,8 +197,8 @@ def price_oriented_result(msg, dri):
     min_price, price_domain = price_domain_helper(gifts)
     for i in range(price_oriented_constant):
         keyboard.append([
-            KeyboardButton(text=price_range_fa.format(str(int(i * price_domain) + min_price),
-                                                      str(int((i + 1) * price_domain) + min_price)))
+            KeyboardButton(text=price_range_fa.format(str(int(i * price_domain) + min_price + i),
+                                                      str(int((i + 1) * price_domain) + min_price + i)))
         ])
     keyboard.append([KeyboardButton(text=to_main_menu_fa)])
 
@@ -228,23 +229,29 @@ def check_customer_database(msg):
     tg_name = customer_name
     tg_family = customer_family
     tg_username = msg['from']['username']
-    if Customer.query.filter_by(tg_id=chat_id).scalar() is not None:
+    if Customer.query.filter_by(tg_id=str(chat_id)).scalar() is not None:
+        print('Customer already created :|')
         return
     else:
         c = Customer(customer_name=customer_name,
                      customer_family=customer_family if customer_family is not None else '',
                      customer_phone=customer_phone,
-                     tg_id=chat_id,
+                     tg_id=str(chat_id),
                      tg_name=tg_name,
                      tg_family=tg_family if tg_family is not None else '',
                      tg_username=tg_username if tg_username is not None else '')
+
+        print('Customer created :|')
 
         db.session.add(c)
         db.session.commit()
 
 
-def set_customer_phone_number(msg):
-    pass
+def set_customer_phone_number(chat_id, msg):
+    c = Customer.query.filter_by(tg_id=str(chat_id)).first()
+    if c:
+        c.customer_phone = msg['contact']['phone_number']
+        db.session.commit()
 
 
 class VoteCounter(telepot.helper.ChatHandler):
@@ -274,19 +281,24 @@ class VoteCounter(telepot.helper.ChatHandler):
         self.price_domain_dict = dict()
         min_price, price_domain = price_domain_helper(self.dri.gifts_sorted)
         for i in range(price_oriented_constant):
-            self.price_domain_dict[price_range_fa.format(str(int(i * price_domain) + min_price),
-                                                         str(int((i + 1) * price_domain) + min_price))] = (
-                str(int(i * price_domain) + min_price), str(int((i + 1) * price_domain) + min_price), i)
+            self.price_domain_dict[price_range_fa.format(str(int(i * price_domain) + min_price + i),
+                                                         str(int((i + 1) * price_domain) + min_price + i))] = (
+                str(int(i * price_domain) + min_price + i), str(int((i + 1) * price_domain) + min_price + i), i)
 
     def on_chat_message(self, msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         print(msg)
         print('Chat:', content_type, chat_type, chat_id)
 
-        threading.Thread(target=check_customer_database, args=msg)
+        check_customer_database(msg)
+        # threading.Thread(target=check_customer_database, args=msg)
 
         if content_type == 'contact':
-            set_customer_phone_number(msg)
+            set_customer_phone_number(chat_id, msg)
+            c = Customer.query.filter_by(tg_id=str(chat_id)).first()
+            if c and c.customer_phone and c.customer_phone != '':
+                self.phone_number_confirmed(chat_id, c)
+            return
         elif content_type != 'text':
             return
 
@@ -311,17 +323,17 @@ class VoteCounter(telepot.helper.ChatHandler):
             new_gifts_result(msg, r2, price_oriented=True, price_index=price_index)
         elif msg['text'] == confirm_pending_order_fa:
             print('here 4')
-            c = Customer.query.filter_by(tg_id=chat_id).first()
+            c = Customer.query.filter_by(tg_id=str(chat_id)).first()
             if c and c.pending_order_gift_id in [g.id for g in self.dri.gifts]:
                 self.phone_number_confirmation(chat_id, c.pending_order_gift_id, c)
         elif msg['text'] == cancel_order_fa:
             print('here 5')
-            c = Customer.query.filter_by(tg_id=chat_id).first()
+            c = Customer.query.filter_by(tg_id=str(chat_id)).first()
             if c and c.pending_order_gift_id is not None:
                 c.pending_order_gift_id = None
                 db.session.commit()
         elif msg['text'] == confirm_phone_number_fa:
-            c = Customer.query.filter_by(tg_id=chat_id).first()
+            c = Customer.query.filter_by(tg_id=str(chat_id)).first()
             if c and c.customer_phone and c.customer_phone != '':
                 self.phone_number_confirmed(chat_id, c)
         else:
@@ -361,9 +373,11 @@ class VoteCounter(telepot.helper.ChatHandler):
             self.checkout_order(from_id, int(data[6:]))
 
     def checkout_order(self, chat_id, gift_id, phone_confirmed=False):
-        c = Customer.query.filter_by(tg_id=chat_id).first()
+        c = Customer.query.filter_by(tg_id=str(chat_id)).first()
+        print(c)
 
         if not c:
+            print('customer is none :|')
             return
 
         if c.pending_order_gift_id \
@@ -377,9 +391,11 @@ class VoteCounter(telepot.helper.ChatHandler):
                     break
 
             if gift is None:
+                print('no gift matched in dri')
                 return
 
-            markup = ReplyKeyboardMarkup([
+            markup = ReplyKeyboardMarkup(keyboard=
+            [
                 [KeyboardButton(text=confirm_pending_order_fa)],
                 [KeyboardButton(text=cancel_order_fa)],
             ], resize_keyboard=True,
@@ -411,16 +427,33 @@ class VoteCounter(telepot.helper.ChatHandler):
             if gift is None:
                 return
 
-            bot.sendMessage(chat_id)
+            markup = ReplyKeyboardMarkup(keyboard=[
+                [KeyboardButton(text=new_gifts_fa)],
+                [KeyboardButton(text=categories_fa)],
+                [KeyboardButton(text=price_oriented_fa)],
+                [KeyboardButton(text=about_us_fa)],
+            ], resize_keyboard=True, one_time_keyboard=True)
+
+            bot.sendMessage(chat_id, order_done_fa, reply_markup=markup)
+
+            s = Sell()
+            s.customer_id = c.id
+            s.customer_phone = c.customer_phone
+            s.gift_id = gift.id
+            s.sell_price = gift.gift_price
 
             c.pending_order_gift_id = None
+
+            db.session.add(s)
             db.session.commit()
 
     def phone_number_confirmation(self, chat_id, gift_id, c):
         if c.customer_phone != '':
-            markup = ReplyKeyboardMarkup([
+            markup = ReplyKeyboardMarkup(keyboard=
+            [
                 [KeyboardButton(text=confirm_phone_number_fa)],
                 [KeyboardButton(text=send_phone_fa, request_contact=True)],
+                [KeyboardButton(text=cancel_order_fa)],
             ])
             bot.sendMessage(chat_id, phone_number_saved_fa.format(c.customer_phone), reply_markup=markup)
         else:
@@ -434,16 +467,247 @@ class VoteCounter(telepot.helper.ChatHandler):
             bot.sendMessage(chat_id, order_text_send_phone_fa.format(str(gift_id)), reply_markup=markup)
 
 
-TOKEN = '216938007:AAH8RyEjdyVzzS6O9i3ExXTaZqX6NCIRZKM'
+# bot = telepot.DelegatorBot(TOKEN, [
+#     include_callback_query_chat_id(
+#         pave_event_space())(
+#         per_chat_id(), create_open, VoteCounter, timeout=10),
+# ])
+# MessageLoop(bot).run_as_thread()
+# # db.create_all()
+# print('Listening ...')
+#
+# while 1:
+#     time.sleep(10)
 
-bot = telepot.DelegatorBot(TOKEN, [
-    include_callback_query_chat_id(
-        pave_event_space())(
-        per_chat_id(), create_open, VoteCounter, timeout=10),
-])
-MessageLoop(bot).run_as_thread()
-# db.create_all()
-print('Listening ...')
 
-while 1:
-    time.sleep(10)
+
+@app.route('/add_d', methods=['GET'])
+def addd():
+    db.create_all()
+    return 'hellllo'
+
+
+@app.route('/add_5', methods=['GET'])
+def add_5():
+    c = Category()
+    g = Gift()
+    c.category_title = category5_fa
+    c.category_specification = 'Category Specification 5'
+    g.gift_title = 'Gift 11'
+    g.gift_specification = 'Gift Specification 11'
+    g.gift_price = '260$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 56'
+    g2.gift_specification = 'Gift Specification 56'
+    g2.gift_price = '420$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 31'
+    g3.gift_specification = 'Gift Specification 31'
+    g3.gift_price = '310$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 48'
+    g4.gift_specification = 'Gift Specification 48'
+    g4.gift_price = '100$'
+    g4.gift_image = 'img4.jpg'
+    g5 = Gift()
+    g5.gift_title = 'Gift 48'
+    g5.gift_specification = 'Gift Specification 48'
+    g5.gift_price = '200$'
+    g5.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    c.gifts.append(g5)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(g5)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_4', methods=['GET'])
+def add_4():
+    c = Category()
+    g = Gift()
+    c.category_title = category4_fa
+    c.category_specification = 'Category Specification 4'
+    g.gift_title = 'Gift 1'
+    g.gift_specification = 'Gift Specification 1'
+    g.gift_price = '20$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 2'
+    g2.gift_specification = 'Gift Specification 2'
+    g2.gift_price = '230$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 3'
+    g3.gift_specification = 'Gift Specification 3'
+    g3.gift_price = '110$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 4'
+    g4.gift_specification = 'Gift Specification 4'
+    g4.gift_price = '56$'
+    g4.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_3', methods=['GET'])
+def add_3():
+    c = Category()
+    g = Gift()
+    c.category_title = category3_fa
+    c.category_specification = 'Category Specification 3'
+    g.gift_title = 'Gift 1'
+    g.gift_specification = 'Gift Specification 1'
+    g.gift_price = '760$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 2'
+    g2.gift_specification = 'Gift Specification 2'
+    g2.gift_price = '290$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 3'
+    g3.gift_specification = 'Gift Specification 3'
+    g3.gift_price = '120$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 4'
+    g4.gift_specification = 'Gift Specification 4'
+    g4.gift_price = '26$'
+    g4.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_2', methods=['GET'])
+def add_2():
+    c = Category()
+    g = Gift()
+    c.category_title = category2_fa
+    c.category_specification = 'Category Specification 2'
+    g.gift_title = 'Gift 11'
+    g.gift_specification = 'Gift Specification 11'
+    g.gift_price = '260$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 56'
+    g2.gift_specification = 'Gift Specification 56'
+    g2.gift_price = '420$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 31'
+    g3.gift_specification = 'Gift Specification 31'
+    g3.gift_price = '310$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 48'
+    g4.gift_specification = 'Gift Specification 48'
+    g4.gift_price = '120$'
+    g4.gift_image = 'img4.jpg'
+    g5 = Gift()
+    g5.gift_title = 'Gift 48'
+    g5.gift_specification = 'Gift Specification 48'
+    g5.gift_price = '210$'
+    g5.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    c.gifts.append(g5)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(g5)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/add_1', methods=['GET'])
+def add_1():
+    c = Category()
+    g = Gift()
+    c.category_title = category1_fa
+    c.category_specification = 'Category Specification 1'
+    g.gift_title = 'Gift 1'
+    g.gift_specification = 'Gift Specification 1'
+    g.gift_price = '210$'
+    g.gift_image = 'img.jpg'
+    g2 = Gift()
+    g2.gift_title = 'Gift 2'
+    g2.gift_specification = 'Gift Specification 2'
+    g2.gift_price = '236$'
+    g2.gift_image = 'img2.jpg'
+    g3 = Gift()
+    g3.gift_title = 'Gift 3'
+    g3.gift_specification = 'Gift Specification 3'
+    g3.gift_price = '10$'
+    g3.gift_image = 'img3.jpg'
+    g4 = Gift()
+    g4.gift_title = 'Gift 4'
+    g4.gift_specification = 'Gift Specification 4'
+    g4.gift_price = '526$'
+    g4.gift_image = 'img4.jpg'
+    c.gifts.append(g)
+    c.gifts.append(g2)
+    c.gifts.append(g3)
+    c.gifts.append(g4)
+    db.session.add(g)
+    db.session.add(g2)
+    db.session.add(g3)
+    db.session.add(g4)
+    db.session.add(c)
+    db.session.commit()
+    return 'Hello World!'
+
+
+@app.route('/send_file', methods=['POST'])
+def hello_file():
+    if 'file' not in request.files:
+        print('no file!')
+        return 'no file!'
+    file = request.files['file']
+    if file.filename == '':
+        print('no selected file')
+        return 'no selected file'
+    if file:
+        file_name = secure_filename(file.filename)
+        print(file_name)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+        print('Nice')
+        return 'Nice!'
+    return 'dafuq?'
+
+
+if __name__ == '__main__':
+    app.run()
