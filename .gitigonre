@@ -1,5 +1,7 @@
-tgtoken
-flaskp.py
-testbot.py
-samebot.py
-delta_bot.py
+*
+
+!.gitignore
+!delta_flask.py
+!delta_bot_shared_values.py
+!delta_farsi_sentences.py
+!delta_settings.py
