@@ -332,6 +332,14 @@ class VoteCounter(telepot.helper.ChatHandler):
             if c and c.pending_order_gift_id is not None:
                 c.pending_order_gift_id = None
                 db.session.commit()
+
+                markup = ReplyKeyboardMarkup(keyboard=[
+                    [KeyboardButton(text=new_gifts_fa)],
+                    [KeyboardButton(text=categories_fa)],
+                    [KeyboardButton(text=price_oriented_fa)],
+                    [KeyboardButton(text=about_us_fa)],
+                ], resize_keyboard=True, one_time_keyboard=True)
+                bot.sendMessage(chat_id, order_canceled_fa, reply_markup=markup)
         elif msg['text'] == confirm_phone_number_fa:
             c = Customer.query.filter_by(tg_id=str(chat_id)).first()
             if c and c.customer_phone and c.customer_phone != '':
@@ -446,6 +454,14 @@ class VoteCounter(telepot.helper.ChatHandler):
 
             db.session.add(s)
             db.session.commit()
+        else:
+            markup = ReplyKeyboardMarkup(keyboard=[
+                [KeyboardButton(text=new_gifts_fa)],
+                [KeyboardButton(text=categories_fa)],
+                [KeyboardButton(text=price_oriented_fa)],
+                [KeyboardButton(text=about_us_fa)],
+            ], resize_keyboard=True, one_time_keyboard=True)
+            bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
 
     def phone_number_confirmation(self, chat_id, gift_id, c):
         if c.customer_phone != '':

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afa3a035-9995-4934-b994-f26c8b780078" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delta_farsi_sentences.py" afterPath="$PROJECT_DIR$/delta_farsi_sentences.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/delta_flask.py" afterPath="$PROJECT_DIR$/delta_flask.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,11 +39,21 @@
       <file leaf-file-name="delta_flask.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/delta_flask.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="469" column="35" lean-forward="true" selection-start-line="469" selection-start-column="35" selection-end-line="469" selection-end-column="35" />
+            <state relative-caret-position="189">
+              <caret line="458" column="52" lean-forward="false" selection-start-line="458" selection-start-column="52" selection-end-line="458" selection-end-column="52" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tgtoken" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tgtoken">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -66,6 +75,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="61" lean-forward="false" selection-start-line="0" selection-start-column="61" selection-end-line="0" selection-end-column="61" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="delta_farsi_sentences.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/delta_farsi_sentences.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="101" column="17" lean-forward="false" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -103,9 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.quer</find>
-      <find>filter_by</find>
-      <find>InlineKe</find>
       <find>InlineKeyboardMarkup</find>
       <find>.commit</find>
       <find>db.commit()</find>
@@ -133,6 +149,9 @@
       <find>c.id</find>
       <find>s.</find>
       <find>s.cu</find>
+      <find>redis</find>
+      <find>cancel_order</find>
+      <find>لفو</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -151,7 +170,6 @@
         <option value="$PROJECT_DIR$/delta_keyboard_actions.py" />
         <option value="$PROJECT_DIR$/delta_bot_shared_values.py" />
         <option value="$PROJECT_DIR$/flask.txt" />
-        <option value="$PROJECT_DIR$/delta_farsi_sentences.py" />
         <option value="$PROJECT_DIR$/flaskp.py" />
         <option value="$PROJECT_DIR$/tgtoken" />
         <option value="$PROJECT_DIR$/delta_settings.py" />
@@ -159,6 +177,7 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/testbot.py" />
+        <option value="$PROJECT_DIR$/delta_farsi_sentences.py" />
         <option value="$PROJECT_DIR$/delta_flask.py" />
       </list>
     </option>
@@ -791,14 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tgtoken">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="45" lean-forward="false" selection-start-line="0" selection-start-column="45" selection-end-line="0" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/samebot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -811,14 +822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="564">
           <caret line="98" column="0" lean-forward="false" selection-start-line="98" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/delta_farsi_sentences.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="96" column="13" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -857,14 +860,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/delta_settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="11" lean-forward="false" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -873,10 +868,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tgtoken">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/delta_settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="11" lean-forward="false" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/delta_farsi_sentences.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="101" column="17" lean-forward="false" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/delta_flask.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="469" column="35" lean-forward="true" selection-start-line="469" selection-start-column="35" selection-end-line="469" selection-end-column="35" />
+        <state relative-caret-position="189">
+          <caret line="458" column="52" lean-forward="false" selection-start-line="458" selection-start-column="52" selection-end-line="458" selection-end-column="52" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
