@@ -1,3 +1,5 @@
 tgtoken
-*flaskp.py
-*testbot.py
+flaskp.py
+testbot.py
+samebot.py
+delta_bot.py
