@@ -224,11 +224,11 @@ def about_us_result(msg, dri=None):
 def check_customer_database(msg):
     chat_id = msg['from']['id']
     customer_name = msg['from']['first_name']
-    customer_family = msg['from']['last_name']
+    customer_family = msg['from']['last_name'] if 'last_name' in msg['from'] else ''
     customer_phone = ''
     tg_name = customer_name
     tg_family = customer_family
-    tg_username = msg['from']['username']
+    tg_username = msg['from']['username'] if 'username' in msg['from'] else ''
     if Customer.query.filter_by(tg_id=str(chat_id)).scalar() is not None:
         print('Customer already created :|')
         return

@@ -2,3 +2,5 @@ flaskp.py
 tgtoken
 testbot.py
 test.py
+__pycache__
+delta_settings.py
