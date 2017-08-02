@@ -352,13 +352,13 @@ class VoteCounter(telepot.helper.ChatHandler):
                 self.gift_amount(chat_id, msg['text'], c)
         else:
             self.check_for_address(chat_id)
-            markup = ReplyKeyboardMarkup(keyboard=[
-                [KeyboardButton(text=new_gifts_fa)],
-                [KeyboardButton(text=categories_fa)],
-                [KeyboardButton(text=price_oriented_fa)],
-                [KeyboardButton(text=about_us_fa)],
-            ], resize_keyboard=True, one_time_keyboard=True)
-            bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
+            # markup = ReplyKeyboardMarkup(keyboard=[
+            #     [KeyboardButton(text=new_gifts_fa)],
+            #     [KeyboardButton(text=categories_fa)],
+            #     [KeyboardButton(text=price_oriented_fa)],
+            #     [KeyboardButton(text=about_us_fa)],
+            # ], resize_keyboard=True, one_time_keyboard=True)
+            # bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
 
     def on_callback_query(self, msg):
         query_id, from_id, data = telepot.glance(msg, flavor='callback_query')
@@ -470,6 +470,14 @@ class VoteCounter(telepot.helper.ChatHandler):
 
             bot.sendMessage(chat_id, 'لطفا تناژ مورد نظر را به صورت یک عدد وارد نمایید.',
                             reply_markup=ForceReply())
+        else:
+            markup = ReplyKeyboardMarkup(keyboard=[
+                [KeyboardButton(text=new_gifts_fa)],
+                [KeyboardButton(text=categories_fa)],
+                [KeyboardButton(text=price_oriented_fa)],
+                [KeyboardButton(text=about_us_fa)],
+            ], resize_keyboard=True, one_time_keyboard=True)
+            bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
 
     def gift_amount(self, chat_id, amount, c):
         if c.pending_order_gift_id \
