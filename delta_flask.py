@@ -348,7 +348,8 @@ class VoteCounter(telepot.helper.ChatHandler):
                 self.phone_number_confirmed(chat_id, c)
         elif re.match(r'\d{1-4}', msg['text']) is not None:
             c = Customer.query.filter_by(tg_id=str(chat_id)).first()
-            self.gift_amount(chat_id, msg['text'], c)
+            if c and c.customer_phone and c.customer_phone != '':
+                self.gift_amount(chat_id, msg['text'], c)
         else:
             markup = ReplyKeyboardMarkup(keyboard=[
                 [KeyboardButton(text=new_gifts_fa)],
