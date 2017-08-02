@@ -43,7 +43,6 @@ class Gift(db.Model):
     gift_specification = db.Column(db.String(250))
     gift_price = db.Column(db.String(100))
     gift_image = db.Column(db.String(100))
-    gift_amount = db.Column(db.String(10))
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
 
 
@@ -52,6 +51,7 @@ class Sell(db.Model):
     customer_id = db.Column(db.Integer)
     customer_phone = db.Column(db.String(20))
     gift_id = db.Column(db.Integer)
+    gift_amount = db.Column(db.String(10))
     sell_price = db.Column(db.String(100))
     sell_description = db.Column(db.String(250), default='')
     sell_image = db.Column(db.String(100), default='')
@@ -348,7 +348,7 @@ class VoteCounter(telepot.helper.ChatHandler):
                 self.phone_number_confirmed(chat_id, c)
         elif re.match(r'\d{1-4}', msg['text']) is not None:
             c = Customer.query.filter_by(tg_id=str(chat_id)).first()
-            self.gift_amount(chat_id, c)
+            self.gift_amount(chat_id, msg['text'], c)
         else:
             markup = ReplyKeyboardMarkup(keyboard=[
                 [KeyboardButton(text=new_gifts_fa)],
@@ -452,7 +452,7 @@ class VoteCounter(telepot.helper.ChatHandler):
             ], resize_keyboard=True, one_time_keyboard=True)
             bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
 
-    def gift_amount(self, chat_id, c):
+    def gift_amount(self, chat_id, amount, c):
         if c.pending_order_gift_id \
                 and c.pending_order_gift_id != '':
 
@@ -476,6 +476,7 @@ class VoteCounter(telepot.helper.ChatHandler):
             bot.sendMessage(chat_id, order_done_fa, reply_markup=markup)
 
             s = Sell()
+            s.gift_amount = amount
             s.customer_id = c.id
             s.customer_phone = c.customer_phone
             s.gift_id = gift.id
