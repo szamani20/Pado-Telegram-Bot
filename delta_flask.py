@@ -351,7 +351,7 @@ class VoteCounter(telepot.helper.ChatHandler):
             if c and c.customer_phone and c.customer_phone != '':
                 self.gift_amount(chat_id, msg['text'], c)
         else:
-            self.check_for_address(chat_id)
+            self.check_for_address(chat_id, msg['text'])
             # markup = ReplyKeyboardMarkup(keyboard=[
             #     [KeyboardButton(text=new_gifts_fa)],
             #     [KeyboardButton(text=categories_fa)],
@@ -454,7 +454,7 @@ class VoteCounter(telepot.helper.ChatHandler):
             ], resize_keyboard=True, one_time_keyboard=True)
             bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
 
-    def check_for_address(self, chat_id):
+    def check_for_address(self, chat_id, address):
         c = Customer.query.filter_by(tg_id=str(chat_id)).first()
         if c and c.customer_phone and c.customer_phone != '' and \
                 c.pending_order_gift_id and c.pending_order_gift_id != '':
@@ -467,6 +467,10 @@ class VoteCounter(telepot.helper.ChatHandler):
 
             if gift is None:
                 return
+
+            c.destination_address = address
+
+            db.session.commit()
 
             bot.sendMessage(chat_id, 'لطفا تناژ مورد نظر را به صورت یک عدد وارد نمایید.',
                             reply_markup=ForceReply())
@@ -504,6 +508,7 @@ class VoteCounter(telepot.helper.ChatHandler):
 
             s = Sell()
             s.gift_amount = amount
+            s.sell_address = c.destination_address
             s.customer_id = c.id
             s.customer_phone = c.customer_phone
             s.gift_id = gift.id

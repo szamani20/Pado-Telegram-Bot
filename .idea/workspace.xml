@@ -38,8 +38,8 @@
       <file leaf-file-name="delta_flask.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/delta_flask.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="353" column="17" lean-forward="false" selection-start-line="353" selection-start-column="17" selection-end-line="353" selection-end-column="17" />
+            <state relative-caret-position="200">
+              <caret line="497" column="22" lean-forward="true" selection-start-line="497" selection-start-column="22" selection-end-line="497" selection-end-column="22" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -111,7 +111,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>confirm_phone_number_fa</find>
       <find>cancel_order_fa</find>
       <find>confirm_pending_order_fa</find>
       <find>tg_id=chat_id</find>
@@ -141,6 +140,7 @@
       <find>destination_address</find>
       <find>address</find>
       <find>sell_address</find>
+      <find>customer_phone</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -847,8 +847,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/delta_flask.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="353" column="17" lean-forward="false" selection-start-line="353" selection-start-column="17" selection-end-line="353" selection-end-column="17" />
+        <state relative-caret-position="200">
+          <caret line="497" column="22" lean-forward="true" selection-start-line="497" selection-start-column="22" selection-end-line="497" selection-end-column="22" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
