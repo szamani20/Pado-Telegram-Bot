@@ -1,6 +1,7 @@
 import json
 import os
 
+import re
 import redis
 import time
 from flask import Flask, request
@@ -42,6 +43,7 @@ class Gift(db.Model):
     gift_specification = db.Column(db.String(250))
     gift_price = db.Column(db.String(100))
     gift_image = db.Column(db.String(100))
+    gift_amount = db.Column(db.String(10))
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
 
 
@@ -344,6 +346,9 @@ class VoteCounter(telepot.helper.ChatHandler):
             c = Customer.query.filter_by(tg_id=str(chat_id)).first()
             if c and c.customer_phone and c.customer_phone != '':
                 self.phone_number_confirmed(chat_id, c)
+        elif re.match(r'\d{1-4}', msg['text']) is not None:
+            c = Customer.query.filter_by(tg_id=str(chat_id)).first()
+            self.gift_amount(chat_id, c)
         else:
             markup = ReplyKeyboardMarkup(keyboard=[
                 [KeyboardButton(text=new_gifts_fa)],
@@ -435,6 +440,32 @@ class VoteCounter(telepot.helper.ChatHandler):
             if gift is None:
                 return
 
+            bot.sendMessage(chat_id, 'لطفا تناژ مورد نظر را به صورت یک عدد وارد نمایید.',
+                            reply_markup=ForceReply())
+
+        else:
+            markup = ReplyKeyboardMarkup(keyboard=[
+                [KeyboardButton(text=new_gifts_fa)],
+                [KeyboardButton(text=categories_fa)],
+                [KeyboardButton(text=price_oriented_fa)],
+                [KeyboardButton(text=about_us_fa)],
+            ], resize_keyboard=True, one_time_keyboard=True)
+            bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
+
+    def gift_amount(self, chat_id, c):
+        if c.pending_order_gift_id \
+                and c.pending_order_gift_id != '':
+
+            gift = None
+
+            for g in self.dri.gifts:
+                if c.pending_order_gift_id == g.id:
+                    gift = g
+                    break
+
+            if gift is None:
+                return
+
             markup = ReplyKeyboardMarkup(keyboard=[
                 [KeyboardButton(text=new_gifts_fa)],
                 [KeyboardButton(text=categories_fa)],
@@ -454,14 +485,6 @@ class VoteCounter(telepot.helper.ChatHandler):
 
             db.session.add(s)
             db.session.commit()
-        else:
-            markup = ReplyKeyboardMarkup(keyboard=[
-                [KeyboardButton(text=new_gifts_fa)],
-                [KeyboardButton(text=categories_fa)],
-                [KeyboardButton(text=price_oriented_fa)],
-                [KeyboardButton(text=about_us_fa)],
-            ], resize_keyboard=True, one_time_keyboard=True)
-            bot.sendMessage(chat_id, please_choose_fa, reply_markup=markup)
 
     def phone_number_confirmation(self, chat_id, gift_id, c):
         if c.customer_phone != '':
